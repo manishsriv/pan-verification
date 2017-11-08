@@ -6,6 +6,12 @@ Verify the name from the PAN number.
 1. Create a database in mysql.
 2. Import `pan_details.sql` to the database
 3. Go to `pan_verification_api.php` and change the connection details.
+```
+$servername = "localhost";  // Hostname of MySql Server;
+$username = "root"; //Username of MySql Server;
+$password = "root";	//Password of MySql Server;
+$dbname = "pan_details"; //Database name;
+```
 4. Run it on any PHP Server.
 
 
