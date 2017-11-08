@@ -9,7 +9,7 @@ Verify the name from the PAN number.
 4. Run it on any PHP Server.
 
 
-# program flow:
+# Program flow:
 
 1. User will enter data in text field.
 2. The is totally handled with jQuery, so when user hit on Validate, it will check step by step through jQuery.
