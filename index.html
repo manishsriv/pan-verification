@@ -1,0 +1,106 @@
+<html>
+<head>
+	<title>PAN Card Verification</title>
+	
+
+	<!-- ========= -->
+	<!-- Libraries -->
+	<!-- ========= -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+	<script src = "https://code.jquery.com/jquery-2.1.3.min.js" type = "text/javascript"></script>
+	
+</head>
+<body>
+
+	<div class="container">
+		
+		<div class="row">
+			<h2>PAN Card Verification</h2>
+			<h4 id="pan_verified"></h4>
+			<div class="col-sm-6">
+				<form>
+				  <div class="form-group">
+				    <label for="pan">PAN Number</label><span class="glyphicon"></span>
+				    <input type="text" class="form-control" id="pan_number" placeholder="PAN Number">
+				    <span class="text-danger" id="pan_error"></span>
+				  </div>
+				  <div class="form-group">
+				    <label for="name">Name</label><span class="glyphicon"></span>
+				    <input type="text" class="form-control" id="name" placeholder="Full Name as on PAN">
+				    <span class="text-danger" id="user_error"></span>
+				  </div>
+				 
+				 
+				  <button type="submit" id="submit_form" class="btn btn-default">Validate</button>
+				</form>
+			</div>
+		</div>
+
+
+	</div>
+
+
+	<!-- =============== -->
+	<!-- Javascript code -->
+	<!-- =============== -->
+	
+	<script type="text/javascript">
+		jQuery(document).ready(function($){
+			
+			$('body').on('click', '#submit_form' , function(e){
+
+					var valid_pan = $('#pan_number').val();
+					var user_name = $('#name').val();
+					var pan_regx = /^([a-zA-Z]){5}([0-9]){4}([a-zA-Z]){1}?$/;
+
+
+					if(!valid_pan){
+						$('#pan_error').text('Please enter PAN Number');
+						return false;
+					}else{
+						$('#pan_error').text('');
+					}
+
+					if(!user_name){
+						$('#user_error').text('Please enter Full Name');
+						return false;
+					}else{
+						$('#user_error').text('');
+					}
+
+					if(pan_regx.test(valid_pan)){
+						//valid PAN let it pass;
+						$.ajax({
+						    type: "POST",
+						    url: "api/pan_verification_api.php", //use full URL with localhost
+						    data: {
+						        pan_num: valid_pan,
+						        user_name: user_name
+						    },
+						    success: function (data) {
+						    	
+						    	if(data == 1){
+						    		$('#pan_verified').addClass('text-success');
+						    		$('#pan_verified').text("Name on PAN card verified!");
+						    		$('.glyphicon').addClass('glyphicon-ok');
+						    	}else{
+						    		$('#pan_verified').addClass('text-danger');
+						    		$('#pan_verified').text("Name doesn't match to PAN card data!");
+						    		$('.glyphicon').addClass('glyphicon-remove');
+						    	}
+
+						    }
+						});
+					 return false;
+					}else{
+						$('#pan_error').text('Not a valid PAN Number, Please recheck and type again');
+						return false;
+					}
+
+			});
+			
+		});
+	</script>
+</body>
+</html>
